@@ -19,6 +19,7 @@ export async function getPkgJson(path: string = "./package.json"): Promise<IPack
 }
 export async function getDepsJson(){
   try {
+    // @ts-expect-error
     const deps_json = await import("#/deps.json")
     return deps_json
   } catch (error:any) {
@@ -33,7 +34,9 @@ export async function allDepsArray(){
 try {
   const deps = await getDepsJson()
    const all_deps = Object.entries(deps).reduce((acc, [_, value]) => {
+     // @ts-expect-error
       const arr = Object.entries(value).flatMap(([__, value]) => {
+        // @ts-expect-error
        return Object.keys(value)
      })
 
@@ -51,18 +54,19 @@ export async function filterAndIncludeDeps(
   try {
 
     const saved_deps = await getDepsJson()
+    // @ts-expect-error
     const inner_dev_deps = include_deps[dep_key]?.dev
     const dev_deps = Object.entries(saved_deps[dep_key].dev).reduce((acc, [key, value]) => {
-      // @ts-expect-error
+  
       if (inner_dev_deps?.[key]) {
         // @ts-expect-error
         acc[key] = value
       }
       return acc
     }, {})
+    // @ts-expect-error
     const inner_main_deps = include_deps[dep_key]?.main
     const main_deps = Object.entries(saved_deps[dep_key].main).reduce((acc, [key, value]) => {
-      // @ts-expect-error
       if (inner_main_deps?.[key]) {
         // @ts-expect-error
         acc[key] = value
@@ -87,18 +91,18 @@ export async function filterAndIgnoreDeps(
   try {
 
     const saved_deps = await getDepsJson()
+    // @ts-expect-error
     const inner_dev_deps = include_deps[dep_key]?.dev
     const dev_deps = Object.entries(saved_deps[dep_key].dev).reduce((acc, [key, value]) => {
-      // @ts-expect-error
       if(!inner_dev_deps?.[key]){
         // @ts-expect-error
         acc[key] = value
       }
       return acc
     },{})
+    // @ts-expect-error
     const inner_main_deps = include_deps[dep_key]?.main
     const main_deps = Object.entries(saved_deps[dep_key].main).reduce((acc, [key, value]) => {
-      // @ts-expect-error
       if(!inner_main_deps?.[key]){
         // @ts-expect-error
         acc[key] = value

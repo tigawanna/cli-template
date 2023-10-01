@@ -11,7 +11,7 @@ export const testCommand = program.command("test")
   // .option('-y, --yes', 'Accept all defaults', true)
   // .allowUnknownOption()
   .action(async() => {
-    await mergeDependancies({ pkg:"tailwind"})
+
 
   });
 

@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-import { addCommand } from "./commands/add/add";
+
 import { getPkgJson } from "@/utils/helpers/pkg-json";
 import { printHelpers } from "@/utils/helpers/print-tools";
 import { testCommand } from "./commands/test/test";
+import { helloCommand } from "./commands/hello/hello-command";
 
 
 const program = new Command();
@@ -20,10 +21,10 @@ if(pkg_json.workspaces){
     process.exit(1)
   }
 })
-program.addCommand(addCommand);
+
+program.addCommand(helloCommand);
 program.addCommand(testCommand);
 
-// program.addCommand(defaultCommand);
 program.command('404', { isDefault: true })
     .description("catch all command")
     .argument('[args...]', 'Catch all arguments/flags provided.')

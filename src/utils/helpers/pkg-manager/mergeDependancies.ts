@@ -1,13 +1,11 @@
-import depsjson from "#/deps.json"
 import { loadingSpinner } from "../clack/spinner";
 import { printHelpers } from "../print-tools";
 import { filterObjectWithArray } from "../objects/filter";
+import { IPackageJson } from "./types";
 
 
-interface IPackageJson {
-    pkg:keyof typeof depsjson
-}
-export async function mergeDependancies({pkg}:IPackageJson){
+
+export async function mergeDependancies({ pkg }: IPackageJson) {
     // const config = await getBonitaConfig();
     const spinnies = loadingSpinner();
     spinnies.add("adding_deps", { text: `adding ${pkg} deps` });
@@ -15,11 +13,13 @@ export async function mergeDependancies({pkg}:IPackageJson){
         // const pkg_json = await getPkgJson();
         // console.log("deps.json in addTailwindDeps === ",depsjson)
         const default_tailwind_dependancies = ["autoprefixer", "postcss", "tailwindcss"]
+        // @ts-expect-error
+        const depsjson = await import("#/deps.json") ?? {}
         const tw_deps_json = depsjson["tailwind"]
-        printHelpers.info("tw_deps",tw_deps_json)
-        
+        printHelpers.info("tw_deps", tw_deps_json)
+
         const tw_deps = filterObjectWithArray(tw_deps_json.dev, default_tailwind_dependancies)
-        printHelpers.info("tw_deps",tw_deps)
+        printHelpers.info("tw_deps", tw_deps)
         // const all_deps = Object.entries(tw_deps_json).flatMap(([key, value]) => {
         //     return Object.keys(value)
         // })

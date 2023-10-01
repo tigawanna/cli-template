@@ -121,10 +121,12 @@ export async function updateDependencies() {
   const spinnies = loadingSpinner();
   try {
     spinnies.add("main", { text: "checking latest deps" });
+    // @ts-expect-error
     const deps_file = await import("#/deps.json");
     const deps_json = deps_file.default;
 
     const updates = Object.entries(deps_json).map(async ([name, dep_type]) => {
+      // @ts-expect-error
       return dependancyType(name, dep_type);
     });
 
